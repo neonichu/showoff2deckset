@@ -38,6 +38,17 @@ for section in metadata['sections']:
 markdown = re.sub('!SLIDE.*', '---', markdown)
 markdown = re.sub('^---', '', markdown)
 markdown = re.sub('.notes.*', '', markdown)
-#markdown = re.sub('@@@ ', '```', markdown)
 markdown = re.sub('\]\((\.\./)*', '](', markdown)
-file(os.path.join(target_dir, 'presentation.md'), 'w').write(markdown)
+
+slides = markdown.split('---')
+output = ''
+for idx, slide in enumerate(slides):
+	if '@@@ ' in slide:
+		slide = re.sub('@@@ ', '```', slide)
+		slide += '\n\t```'
+	output += slide
+	if idx + 1 < len(slides):
+		output += '\n---\n'
+output = '\n'.join([x.strip() for x in output.split('\n') if x.strip()])
+output = re.sub('---', '\n---\n', output)
+file(os.path.join(target_dir, 'presentation.md'), 'w').write(output)
