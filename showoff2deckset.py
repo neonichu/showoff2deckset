@@ -39,6 +39,7 @@ markdown = re.sub('!SLIDE.*', '---', markdown)
 markdown = re.sub('^---', '', markdown)
 markdown = re.sub('.notes.*', '', markdown)
 markdown = re.sub('<img src="(.*?)" .*?/>', '![](\g<1>)', markdown)
+markdown = re.sub('!\[\]', '![99%]', markdown)
 markdown = re.sub('\]\((\.\./)*', '](', markdown)
 
 slides = markdown.split('---')
